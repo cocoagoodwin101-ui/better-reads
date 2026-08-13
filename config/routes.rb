@@ -4,6 +4,11 @@ Rails.application.routes.draw do
   
   resource :session
   resources :users
-  resources :books
+  resources :books do
+    member do
+      post "upvote"
+    end
+  end
+  
   resources :reviews
 end

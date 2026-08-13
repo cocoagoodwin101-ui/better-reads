@@ -47,4 +47,12 @@ class BooksControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to books_url
   end
+
+  test "should upvote book" do
+    assert_difference("Book.find(@book.id).upvotes_count", 1) do
+      post upvote_book_url(@book)
+    end
+    assert_redirected_to books_url
+  end
+  
 end

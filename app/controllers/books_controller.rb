@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-  before_action :set_book, only: [:show, :edit, :update, :destroy]
+  before_action :set_book, only: [:show, :edit, :update, :destroy, :upvote]
 
   # GET /books
   def index
@@ -42,12 +42,10 @@ class BooksController < ApplicationController
 
   # GET /books/1/edit
   def edit
-    @book = Book.find(params[:id])
   end
 
   # PATCH/PUT /books/1
   def update
-    @book = Book.find(params[:id])
     if @book.update(book_params)
       redirect_to @book, notice: "Book was successfully updated."
     else
@@ -57,9 +55,14 @@ class BooksController < ApplicationController
 
   # DELETE /books/1
   def destroy
-    @book = Book.find(params[:id])
     @book.destroy
     redirect_to books_url, notice: "Book was successfully destroyed."
+  end
+
+  # POST /books/1/upvote
+  def upvote
+    @book.increment!(:upvotes_count)
+    redirect_back fallback_location: books_path, notice: "Book was successfully upvoted."
   end
 
   private
