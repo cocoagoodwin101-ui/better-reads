@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-  before_action :set_book, only: [:show]
+  before_action :set_book, only: [:show, :edit, :update, :destroy]
 
   # GET /books
   def index
@@ -38,6 +38,28 @@ class BooksController < ApplicationController
     else
       render :new, status: :unprocessable_entity
     end
+  end
+
+  # GET /books/1/edit
+  def edit
+    @book = Book.find(params[:id])
+  end
+
+  # PATCH/PUT /books/1
+  def update
+    @book = Book.find(params[:id])
+    if @book.update(book_params)
+      redirect_to @book, notice: "Book was successfully updated."
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  # DELETE /books/1
+  def destroy
+    @book = Book.find(params[:id])
+    @book.destroy
+    redirect_to books_url, notice: "Book was successfully destroyed."
   end
 
   private
