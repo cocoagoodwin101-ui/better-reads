@@ -23,6 +23,9 @@
           <p class="text-sm text-gray-500">Rating: <%= review.rating %></p>
           <p class="text-sm text-gray-500">By <%= review.user.name %></p>
           <p class="mt-4"><%= review.content %></p>
+          <% if current_user == review.user %>
+            <%= link_to "Edit", edit_review_path(review) %>
+          <% end %>  
         </div>
       <% end %>
       <div class="card">

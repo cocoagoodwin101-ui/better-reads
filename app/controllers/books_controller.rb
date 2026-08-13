@@ -3,7 +3,20 @@ class BooksController < ApplicationController
 
   # GET /books
   def index
-    @books = Book.all
+    @books = Book.all.includes(:author)
+
+    @books = case params[:sort]
+            when "title"
+              @books.order(:title)
+            when "author"
+              @books.joins(:author).order("authors.name")
+            when "newest"
+              @books.order(created_at: :desc)
+            when "oldest"
+              @books.order(created_at: :asc)
+            else
+              @books.order(:title) # sensible default
+            end
   end
 
   # GET /books/1

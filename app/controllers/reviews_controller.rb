@@ -29,4 +29,31 @@ class ReviewsController < ApplicationController
       redirect_to reviews_url, alert: "Failed to delete review."
     end
   end
+
+  before_action :set_review, only: [:edit, :update]
+  before_action :check_owner, only: [:edit, :update]
+
+  def edit
+  end
+
+  def update
+    review_params = params.require(:review).permit(:rating, :content, :title)
+    if @review.update(review_params)
+    redirect_to reviews_url, notice: "Review was successfully updated."
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  private
+
+  def set_review
+    @review = Review.find(params[:id])
+  end
+
+  def check_owner
+    unless @review.user == current_user
+      redirect_to reviews_path, alert: "You are not authorised to edit this review."
+    end
+  end
 end

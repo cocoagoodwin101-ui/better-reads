@@ -6,6 +6,14 @@
     <%= link_to "New book", new_book_path, class: "rounded-lg py-3 px-5 bg-green-700 text-white block font-medium" %>
   </div>
 
+  <div class="flex gap-2 mt-4">
+    <span class="font-medium self-center">Sort by:</span>
+    <%= link_to "Alphabetical: Title", books_path(sort: "title"), class: "rounded-lg py-2 px-4 font-medium #{params[:sort] == 'title' ? 'bg-green-700 text-white' : 'bg-gray-200'}" %>
+    <%= link_to "Alphabetical: Author", books_path(sort: "author"), class: "rounded-lg py-2 px-4 font-medium #{params[:sort] == 'author' ? 'bg-green-700 text-white' : 'bg-gray-200'}" %>
+    <%= link_to "Newest", books_path(sort: "newest"), class: "rounded-lg py-2 px-4 font-medium #{params[:sort] == 'newest' ? 'bg-green-700 text-white' : 'bg-gray-200'}" %>
+    <%= link_to "Oldest", books_path(sort: "oldest"), class: "rounded-lg py-2 px-4 font-medium #{params[:sort] == 'oldest' ? 'bg-green-700 text-white' : 'bg-gray-200'}" %>
+  </div>
+
   <div id="books" class="min-w-full space-y-4 mt-4">
     <% @books.each do |book| %>
       <div class="card">
