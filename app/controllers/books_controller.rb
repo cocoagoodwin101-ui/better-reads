@@ -61,8 +61,13 @@ class BooksController < ApplicationController
 
   # POST /books/1/upvote
   def upvote
-    @book.increment!(:upvotes_count)
-    redirect_back fallback_location: books_path, notice: "Book was successfully upvoted."
+    @upvote = Upvote.new(user: current_user, book: @book)
+
+    if @upvote.save
+      redirect_back fallback_location: books_path, notice: "You have upvoted this book."
+    else
+      redirect_back fallback_location: books_path, alert: "You have already upvoted this book."
+    end
   end
 
   private

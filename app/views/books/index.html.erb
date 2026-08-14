@@ -20,7 +20,7 @@
         <%= render book %>
         <%= link_to "Read reviews", book, class: "rounded-lg py-3 px-5 bg-green-200 inline-block font-medium" %>
         <%= link_to "Add your review", new_review_path, class: "rounded-lg py-3 px-5 bg-green-200 inline-block font-medium" %>
-        <%= button_to "Upvote (#{book.upvotes_count})", upvote_book_path(book), method: :post, class: "rounded-lg py-3 px-5 bg-blue-200 inline-block font-medium" %>
+        <%= button_to "Upvote (#{book.upvotes.count})", upvote_book_path(book), method: :post, class: "rounded-lg py-3 px-5 bg-blue-200 inline-block font-medium" %>
       </div>
     <% end %>
   </div>

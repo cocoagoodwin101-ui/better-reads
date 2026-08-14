@@ -49,10 +49,16 @@ class BooksControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should upvote book" do
-    assert_difference("Book.find(@book.id).upvotes_count", 1) do
+    assert_difference("Upvote.count", 1) do
       post upvote_book_url(@book)
     end
     assert_redirected_to books_url
   end
-  
+
+  test "should not allow upvoting the same book twice" do
+    post upvote_book_url(@book) # first upvote
+    assert_no_difference("Upvote.count") do
+      post upvote_book_url(@book) # second upvote, same user
+    end
+  end
 end

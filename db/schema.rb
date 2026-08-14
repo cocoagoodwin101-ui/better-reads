@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_13_230224) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_14_014917) do
   create_table "authors", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
@@ -24,7 +24,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_13_230224) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "author_id"
-    t.integer "upvotes_count", default: 0, null: false
     t.index ["author_id"], name: "index_books_on_author_id"
   end
 
@@ -40,6 +39,16 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_13_230224) do
     t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
+  create_table "upvotes", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "book_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_id"], name: "index_upvotes_on_book_id"
+    t.index ["user_id", "book_id"], name: "index_upvotes_on_user_id_and_book_id", unique: true
+    t.index ["user_id"], name: "index_upvotes_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "name"
@@ -51,4 +60,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_13_230224) do
   add_foreign_key "books", "authors"
   add_foreign_key "reviews", "books"
   add_foreign_key "reviews", "users"
+  add_foreign_key "upvotes", "books"
+  add_foreign_key "upvotes", "users"
 end
