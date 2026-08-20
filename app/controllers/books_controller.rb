@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-  before_action :set_book, only: [:show, :edit, :update, :destroy, :upvote]
+  before_action :set_book, only: [:show, :edit, :update, :destroy]
 
   # GET /books
   def index
@@ -59,16 +59,6 @@ class BooksController < ApplicationController
     redirect_to books_url, notice: "Book was successfully destroyed."
   end
 
-  # POST /books/1/upvote
-  def upvote
-    @upvote = Upvote.new(user: current_user, book: @book)
-
-    if @upvote.save
-      redirect_back fallback_location: books_path, notice: "You have upvoted this book."
-    else
-      redirect_back fallback_location: books_path, alert: "You have already upvoted this book."
-    end
-  end
 
   private
   # Use callbacks to share common setup or constraints between actions.

@@ -48,17 +48,4 @@ class BooksControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to books_url
   end
 
-  test "should upvote book" do
-    assert_difference("Upvote.count", 1) do
-      post upvote_book_url(@book)
-    end
-    assert_redirected_to books_url
-  end
-
-  test "should not allow upvoting the same book twice" do
-    post upvote_book_url(@book) # first upvote
-    assert_no_difference("Upvote.count") do
-      post upvote_book_url(@book) # second upvote, same user
-    end
-  end
 end

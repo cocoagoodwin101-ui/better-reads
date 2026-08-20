@@ -20,7 +20,11 @@
         <%= render book %>
         <%= link_to "Read reviews", book, class: "rounded-lg py-3 px-5 bg-green-200 inline-block font-medium" %>
         <%= link_to "Add your review", new_review_path, class: "rounded-lg py-3 px-5 bg-green-200 inline-block font-medium" %>
-        <%= button_to "Upvote (#{book.upvotes.count})", upvote_book_path(book), method: :post, class: "rounded-lg py-3 px-5 bg-blue-200 inline-block font-medium" %>
+        <div class="flex items-center gap-2">
+          <%= button_to "▲", book_votes_path(book), method: :post, params: { value: 1 }, class: "rounded-lg py-2 px-4 bg-green-200 font-medium" %>
+          <span class="font-bold"><%= book.votes.sum(:value) %></span>
+          <%= button_to "▼", book_votes_path(book), method: :post, params: { value: -1 }, class: "rounded-lg py-2 px-4 bg-red-200 font-medium" %>
+        </div>
       </div>
     <% end %>
   </div>

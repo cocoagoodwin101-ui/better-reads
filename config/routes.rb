@@ -4,11 +4,12 @@ Rails.application.routes.draw do
   
   resource :session
   resources :users
-  resources :books do
-    member do
-      post "upvote"
-    end
-  end
   
-  resources :reviews
+  resources :books do
+    resources :votes, only: [:create], defaults: { votable_type: "Book" }
+  end
+
+  resources :reviews do
+    resources :votes, only: [:create], defaults: { votable_type: "Review" }
+  end
 end
