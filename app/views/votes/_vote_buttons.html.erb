@@ -1,6 +1,14 @@
 <% existing_vote = Vote.find_by(user: current_user, votable: votable) %>
-<div class="flex items-center gap-2">
-  <%= button_to "▲", polymorphic_path([votable, :votes]), method: :post, params: { value: 1 }, class: "rounded-lg py-2 px-4 font-medium text-lg #{existing_vote&.value == 1 ? 'bg-green-600 text-white' : 'bg-green-200 text-gray-800'}" %>
-  <span class="font-bold"><%= votable.votes.sum(:value) %></span>
-  <%= button_to "▼", polymorphic_path([votable, :votes]), method: :post, params: { value: -1 }, class: "rounded-lg py-2 px-4 font-medium text-lg #{existing_vote&.value == -1 ? 'bg-red-600 text-white' : 'bg-red-200 text-gray-800'}" %>
+<% score = votable.votes.sum(:value) %>
+
+<div class="inline-flex items-center gap-1 bg-gray-100 rounded-full px-2 py-1 select-none">
+  <%= button_to "▲", polymorphic_path([votable, :votes]), method: :post, params: { value: 1 },
+        class: "w-7 h-7 flex items-center justify-center rounded-full text-sm transition-colors duration-150 #{existing_vote&.value == 1 ? 'text-orange-500' : 'text-gray-400 hover:text-orange-500'}" %>
+
+  <span class="text-sm font-bold min-w-[1.5rem] text-center #{existing_vote&.value == 1 ? 'text-orange-500' : (existing_vote&.value == -1 ? 'text-blue-500' : 'text-gray-700')}">
+    <%= score %>
+  </span>
+
+  <%= button_to "▼", polymorphic_path([votable, :votes]), method: :post, params: { value: -1 },
+        class: "w-7 h-7 flex items-center justify-center rounded-full text-sm transition-colors duration-150 #{existing_vote&.value == -1 ? 'text-blue-500' : 'text-gray-400 hover:text-blue-500'}" %>
 </div>
