@@ -25,7 +25,8 @@
           <p class="mt-4"><%= review.content %></p>
           <% if current_user == review.user %>
             <%= link_to "Edit", edit_review_path(review) %>
-          <% end %>  
+          <% end %> 
+          <%= render "votes/vote_buttons", votable: review %> 
         </div>
       <% end %>
       <div class="card">

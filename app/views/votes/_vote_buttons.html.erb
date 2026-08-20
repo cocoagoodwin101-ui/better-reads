@@ -1,0 +1,6 @@
+<% existing_vote = Vote.find_by(user: current_user, votable: votable) %>
+<div class="flex items-center gap-2">
+  <%= button_to "▲", polymorphic_path([votable, :votes]), method: :post, params: { value: 1 }, class: "rounded-lg py-2 px-4 font-medium text-lg #{existing_vote&.value == 1 ? 'bg-green-600 text-white' : 'bg-green-200 text-gray-800'}" %>
+  <span class="font-bold"><%= votable.votes.sum(:value) %></span>
+  <%= button_to "▼", polymorphic_path([votable, :votes]), method: :post, params: { value: -1 }, class: "rounded-lg py-2 px-4 font-medium text-lg #{existing_vote&.value == -1 ? 'bg-red-600 text-white' : 'bg-red-200 text-gray-800'}" %>
+</div>
