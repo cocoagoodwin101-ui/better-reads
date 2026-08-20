@@ -1,6 +1,11 @@
 class ReviewsController < ApplicationController
   def index
-    @reviews = Review.all.order(created_at: :desc).limit(20)
+    @reviews = case params[:sort]
+              when "votes"
+                Review.left_joins(:votes).group(:id).order(Arel.sql("COALESCE(SUM(votes.value), 0) DESC")).limit(20)
+              else
+                Review.order(created_at: :desc).limit(20)
+              end
   end
 
   def new

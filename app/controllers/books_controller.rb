@@ -14,8 +14,10 @@ class BooksController < ApplicationController
               @books.order(created_at: :desc)
             when "oldest"
               @books.order(created_at: :asc)
+            when "votes"
+              @books.left_joins(:votes).group(:id).order(Arel.sql("COALESCE(SUM(votes.value), 0) DESC"))
             else
-              @books.order(:title) # sensible default
+              @books.order(:title)
             end
   end
 

@@ -30,4 +30,19 @@ class ReviewsControllerTest < ActionDispatch::IntegrationTest
     assert response.body.index(newer.content) < response.body.index(older.content)
   end
 
+  test "should sort reviews by votes descending" do
+    review_a = reviews(:one)
+    review_b = Review.create!(book: books(:one), user: users(:bri), title: "Second review", content: "Content here", rating: 3)
+
+    Vote.create!(user: users(:austin), votable: review_a, value: 1)
+    Vote.create!(user: users(:bri), votable: review_a, value: 1)
+    Vote.create!(user: users(:austin), votable: review_b, value: 1)
+
+    get reviews_path(sort: "votes")
+    assert_response :success
+
+    positions = [review_a, review_b].map { |r| response.body.index(r.title) }
+    assert_equal positions, positions.sort
+  end
+
 end

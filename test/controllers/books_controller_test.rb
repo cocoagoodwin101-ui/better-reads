@@ -48,4 +48,19 @@ class BooksControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to books_url
   end
 
+  test "should sort books by votes descending" do
+    book_a = books(:one)
+    book_b = books(:two)
+
+    Vote.create!(user: users(:austin), votable: book_a, value: 1)
+    Vote.create!(user: users(:bri), votable: book_a, value: 1)
+    Vote.create!(user: users(:austin), votable: book_b, value: 1)
+
+    get books_path(sort: "votes")
+    assert_response :success
+
+    positions = [book_a, book_b].map { |b| response.body.index(b.title) }
+    assert_equal positions, positions.sort
+  end
+
 end
